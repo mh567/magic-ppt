@@ -1,0 +1,51 @@
+name: Validate and release
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install validation dependencies
+        run: python -m pip install python-pptx Pillow lxml python-docx openpyxl pypdf
+      - name: Validate and package committed source
+        env:
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+        run: |
+          if [ -n "$RELEASE_TAG" ]; then
+            python scripts/release.py --out "$RUNNER_TEMP/release" --tag "$RELEASE_TAG"
+          else
+            python scripts/release.py --out "$RUNNER_TEMP/release"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: magic-ppt-package
+          path: ${{ runner.temp }}/release/
+          if-no-files-found: error
+  publish:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: package
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: magic-ppt-package
+          path: release
+      - name: Publish new version without replacing existing releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" release/*.zip release/SHA256SUMS.txt release/release-manifest.json \
+            --verify-tag --fail-on-no-commits --title "Magic PPT ${RELEASE_TAG#v}" --notes-file release/release-notes.md

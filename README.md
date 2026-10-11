@@ -84,3 +84,13 @@ Agent 根据安装方式拉取或替换新版，先保存本地改动和自定�
 版本采用语义化版本规则，`VERSION` 与 `SKILL.md` 中的版本保持一致。未发布变化记入 `CHANGELOG.md` 的 Unreleased，发布时归档为对应版本。
 
 自测验证脚本行为与合成夹具，不代表真实出图质量或目标应用验收。每份成品仍需渲染最终 PPTX 并逐页检查；字体替换、工具缺口及未完成检查会在交付时说明。
+
+## 发布流程
+
+1. 将本次变化从 Unreleased 归档到新版本，更新 VERSION 和 SKILL.md 的 metadata.version。
+2. 提交并推送 main，等待 Validate and release 工作流通过。
+3. 在同一已验证提交创建标签 `v<版本号>` 并推送标签，工作流自动构建并发布离线 ZIP、SHA256SUMS.txt 与 release-manifest.json。
+
+本地可执行 `python scripts/release.py --out ../dist` 验证与打包。要求已提交且干净的工作区；标签必须与版本一致。现有 Release 不覆盖，失败修复后重新检查；已发布版本的功能修复使用新版本号。
+
+发布包使用固定 ZIP 元数据，并从 Git 提交读取文件，不包含 Git 元数据、CI 配置或本地环境。项目版本与提交身份写入发布清单。
