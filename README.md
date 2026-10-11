@@ -26,33 +26,36 @@ ChatGPT/Codex 路径优先使用当前内置图像工具。其他 Agent 可使�
 
 ## 安装
 
-### Codex
+### 在线安装
 
-先确认当前 GitHub 账户具有仓库读取权限，再克隆到技能目录。目标目录已存在时按更新方法操作。
+直接对 Agent 说：
 
-```bash
-git clone https://github.com/mh567/magic-ppt.git "${CODEX_HOME:-$HOME/.codex}/skills/magic-ppt"
+```text
+请安装 https://github.com/mh567/magic-ppt 这个 skill，并自动检查运行环境，补齐缺失的 Python 依赖。
 ```
 
-如需使用随附脚本，可在技能目录创建独立 Python 环境：
+Agent 会将完整技能安装到当前宿主的 skills 目录，检查依赖与可用工具，并说明检查结果。私有仓库需当前账户具有读取权限。
 
-```bash
-cd "${CODEX_HOME:-$HOME/.codex}/skills/magic-ppt"
-python3 -m venv .venv
-.venv/bin/python -m pip install python-pptx Pillow lxml python-docx openpyxl pypdf
-.venv/bin/python scripts/deck_pipeline.py --version
-.venv/bin/python scripts/self_test.py
+### 离线安装
+
+从 [Releases](https://github.com/mh567/magic-ppt/releases) 下载 `magic-ppt-<版本号>.zip`，解压到当前 Agent 的 skills 目录即可。目录结构应为：
+
+```text
+skills/
+  magic-ppt/
+    SKILL.md
+    scripts/
+    references/
+    assets/
 ```
 
-Windows 可使用 `python` 创建环境，并将 `.venv/bin/python` 替换为 `.venv\Scripts\python.exe`。
+ZIP 需要解压，直接放置压缩文件无法加载技能。开启新会话后使用 `$magic-ppt`，Agent 会自动检查环境。离线包包含技能与模板，不包含 Python 运行时和依赖；完全断网环境需预先具备依赖，缺项会明确报告。
 
-安装后开启新会话，使用 `$magic-ppt` 调用。
+## 自动环境检查
 
-### 其他 Agent
+安装完成或首次使用时，Agent 运行 `scripts/setup_check.py`，优先复用已有环境。在线且已授权补齐依赖时使用 `--install`，仅在技能目录的 `.venv` 中安装缺失包。
 
-将仓库克隆到该宿主文档指定的技能目录，保留整个 `magic-ppt` 文件夹。宿主支持 `SKILL.md` 时按其方式加载；不支持自动发现时，显式提供技能入口。依赖安装和图像工具配置遵循宿主方式。
-
-模板、提示词和验收规则随技能一起提供；不同工具的参数按当前签名适配，不保证每个宿主具备全部能力。模板绑定与视觉状态见 [模板绑定说明](references/template-binding.md)。
+本地脚本检查 Python 依赖与本地渲染工具；Agent 另行确认宿主图像工具、可用渲染器与模板字体。缺少本地 LibreOffice 时可使用宿主渲染器。检查 Python 依赖通过不代表图像生成或成品验收已完成。
 
 ## 使用
 
@@ -68,19 +71,13 @@ Windows 可使用 `python` 创建环境，并将 `.venv/bin/python` 替换为 `.
 
 ## 更新
 
-在安装目录先检查本地修改，再拉取远程更新：
+在线安装后，直接对 Agent 说：
 
-```bash
-cd "${CODEX_HOME:-$HOME/.codex}/skills/magic-ppt"
-git status --short
-git pull --ff-only
-.venv/bin/python scripts/deck_pipeline.py --version
-.venv/bin/python scripts/self_test.py
+```text
+请更新 magic-ppt 到最新版本，保留我的自定义模板，并重新检查环境。
 ```
 
-存在本地修改时先保存或提交，再更新；不要直接覆盖自定义模板。依赖变化见变更记录。更新后开启新会话加载新版。
-
-通过文件复制安装的版本，可先备份原目录，再从仓库下载完整新版本并替换，保留所需自定义资产并重新检查模板绑定。
+Agent 根据安装方式拉取或替换新版，先保存本地改动和自定义资产，核对版本与模板绑定。离线安装时下载新的版本 ZIP，备份旧目录后解压替换。更新后开启新会话。
 
 ## 版本与验证
 
