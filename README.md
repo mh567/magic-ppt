@@ -2,7 +2,7 @@
 
 Magic PPT 是一个将原始素材制作成完整 PowerPoint 演示文稿的 Agent Skill。默认交付原生可编辑 PPTX，覆盖内容整理、页面规划、模板复用、口播备注和最终渲染检查；图片可用于效果预览与确认。
 
-当前版本：`0.1.0`。版本以 [VERSION](VERSION) 为准，变化见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.2.0`。版本以 [VERSION](VERSION) 为准，变化见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 核心能力
 
