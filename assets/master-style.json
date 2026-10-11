@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "provenance": "企业AI安全运营_ChatGPT_Image2_PPT讲稿提示词_母版一致_通俗版.md，全局绘图提示词；描述中比例为约值，需要原模板确认。",
+  "geometry_is_approximate": true,
+  "colors": {
+    "title": [
+      "#11298B",
+      "#11298C"
+    ],
+    "secondary": "#253B96",
+    "page_tab": "#1C4885",
+    "subtitle_gradient": [
+      "#11288C",
+      "#818CBE",
+      "near-white ice-blue"
+    ],
+    "accent": "#FFC000",
+    "body": "#FFFFFF",
+    "neutral": [
+      "#808080",
+      "#D9D9D9"
+    ],
+    "watermark": [
+      "#A8C9EA",
+      "#DCEBFA"
+    ]
+  },
+  "masters": {
+    "cover": {
+      "background": "深宝蓝渐变，上部浅冰蓝柔光和白色弧线；白字居中；无卡片/网格/节点",
+      "title_box_approx": [
+        0.066,
+        0.272,
+        0.871,
+        0.318
+      ],
+      "footer_box_approx": [
+        0.125,
+        0.725,
+        0.75,
+        0.199
+      ],
+      "title_pt_approx": 54
+    },
+    "body": {
+      "background": "白底，左上蓝黄标识，细灰横线，双蓝竖线，蓝至冰白副标题条，右下淡蓝轨道水印及深蓝斜切页码签",
+      "title_box_approx": [
+        0.053,
+        0.03,
+        0.572,
+        0.077
+      ],
+      "subtitle_box_approx": [
+        0.055,
+        0.134,
+        0.928,
+        0.08
+      ],
+      "title_pt_approx": 32,
+      "subtitle_pt_approx": 28,
+      "body_pt_suggested": [
+        18,
+        22
+      ],
+      "content_rule": "白/浅蓝平面信息块、深蓝细线，小面积黄色强调；图表只在内容区"
+    },
+    "section": {
+      "background": "白/浅冰蓝，三行章节导航；当前章节深蓝，其余灰色；无正文卡片"
+    },
+    "closing": {
+      "background": "上部约23–27%白/浅冰蓝弧带，下部深宝蓝渐变；不是全幅深蓝",
+      "text": "中央黄色 #FFFF00 结束文字；无页码与正文卡片"
+    }
+  }
+}

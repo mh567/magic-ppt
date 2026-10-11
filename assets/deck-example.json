@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "title": "示例：让告警排查更快",
+  "mode": "locked-template",
+  "requested_image_model": "ChatGPT current built-in image tool",
+  "require_exact_model": false,
+  "min_image_width": 1920,
+  "max_attempts_per_slide": 3,
+  "slides": [
+    {
+      "id": "P001",
+      "order": 1,
+      "kind": "cover",
+      "title": "让告警排查更快",
+      "subtitle": "先把资料查全，再让人做判断",
+      "footer": "示例技术分享\n日期以实际汇报为准",
+      "on_slide": [],
+      "layout": "沿用原模板封面，标题、副标题、落款替换，不新增装饰。",
+      "speaker_notes": "今天讨论一个具体问题：一条告警出来后，怎么减少来回查系统的时间。这里先用一个示例说明做法，不代表已经取得实测效果。",
+      "sources": [
+        "本文件为结构示例，无项目实测数据。"
+      ]
+    },
+    {
+      "id": "P002",
+      "order": 2,
+      "kind": "body",
+      "title": "先把一条告警需要的资料查全",
+      "subtitle": "缺什么就补什么，先不自动处置",
+      "on_slide": [
+        "查日志：补齐前后时间线",
+        "查资产：确认设备和业务",
+        "查账号：核对身份与权限",
+        "人确认：看证据再决定下一步"
+      ],
+      "layout": "正文区四个等宽平面块，按日志、资产、账号、确认从左到右排列；白底、品蓝细线，不增加其它步骤。",
+      "speaker_notes": "看这条告警时，先别急着给结论。我们先查前后的日志，再确认设备属于哪项业务、账号拥有什么权限。这些信息整理好以后，分析人员再判断需不需要继续处理。这里说的是流程建议，执行效果仍要用实际任务验证。",
+      "sources": [
+        "示例流程建议，不含项目现网事实。"
+      ]
+    }
+  ],
+  "image_provider": "chatgpt-built-in"
+}

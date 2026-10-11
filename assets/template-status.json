@@ -1,0 +1,7 @@
+{
+  "status": "bound-awaiting-chinese-text-render",
+  "profile": "master/profile.json",
+  "image_tool": "ChatGPT current built-in image generation",
+  "original_template_embedded": true,
+  "remaining": "在具备中文字体的渲染器中重新渲染并逐类验收；无需用户再次上传模板。"
+}

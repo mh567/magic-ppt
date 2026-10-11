@@ -1,0 +1,56 @@
+{
+  "provenance": "用户上传原始 PPT模板.pptx，6页；源字节原样保存；字体声明保持原样。",
+  "masters": {
+    "cover": {
+      "slide_index": 1,
+      "role_shapes": {
+        "title": 2,
+        "footer": 3
+      },
+      "combine_title_subtitle": true,
+      "remove_shape_ids": []
+    },
+    "body": {
+      "slide_index": 3,
+      "role_shapes": {
+        "title": 4,
+        "subtitle": 3
+      },
+      "page_number_mode": "inherited-field",
+      "layout_page_number_shape_id": 18433,
+      "remove_shape_ids": [],
+      "content_box": [
+        0.0553,
+        0.235,
+        0.925,
+        0.68
+      ],
+      "requires_transparent_content": true,
+      "transparent_boxes": [
+        [
+          0.82,
+          0.72,
+          0.12,
+          0.16
+        ]
+      ]
+    },
+    "section": {
+      "slide_index": 2,
+      "role_shapes": {
+        "navigation_1": 21,
+        "navigation_2": 13,
+        "navigation_3": 6
+      },
+      "navigation_count": 3,
+      "remove_shape_ids": []
+    },
+    "closing": {
+      "slide_index": 6,
+      "role_shapes": {
+        "closing_text": 2
+      },
+      "remove_shape_ids": []
+    }
+  }
+}

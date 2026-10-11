@@ -1,0 +1,70 @@
+[SYSTEM / GLOBAL STYLE PROMPT — STRICTLY LOCKED TO PPT模板.pptx]
+
+Generate a clean, formal, ultra-high-resolution 16:9 presentation slide that strictly follows the supplied corporate template “PPT模板.pptx”. The template master always has higher priority than any page-specific visual description.
+
+1. CANVAS
+- 16:9 widescreen, 1920×1080 composition.
+- Chinese research-institute / state-owned-enterprise technical-report style.
+- Formal, restrained, bright, clean, PPT-native. Do not redesign it as a cyber-security dashboard.
+
+2. MASTER COLORS
+- Main title navy: #11298B / #11298C.
+- Secondary navy: #253B96.
+- Page-tab navy: #1C4885.
+- Subtitle strip gradient: #11288C → #818CBE → very pale ice blue / near-white.
+- Small master accent yellow: #FFC000.
+- Body background: #FFFFFF.
+- Neutral gray: #808080 / #D9D9D9.
+- Ice blue decoration: #A8C9EA / #DCEBFA.
+- Red / green / orange may be used only as small semantic status accents, never as the main visual language.
+
+3. TYPOGRAPHY AND MASTER GEOMETRY
+- Cover title: FangZheng HeiTi_GBK-like Chinese Heiti, approx. 54 pt, bold, white, centered.
+- Cover title zone follows template geometry: x≈6.6%, y≈27.2%, w≈87.1%, h≈31.8%.
+- Cover organization / date zone: x≈12.5%, y≈72.5%, w≈75%, h≈19.9%, centered white text.
+- Body main-title zone: x≈5.3%, y≈3.0%, w≈57.2%, h≈7.7%; bold #11298C Chinese Heiti, approx. 32 pt.
+- Body subsection strip begins at x≈5.5%, y≈13.4%, w≈92.8%, h≈8.0%.
+- Subsection text is white, approx. 28 pt, left aligned; two narrow navy vertical rules sit to the left of the strip around x≈3.8% and x≈4.8%.
+- Body copy: 18–22 pt dark gray / near-black, conservative line spacing.
+
+4. BODY MASTER — mandatory for P02–P21
+- Pure white full-slide background.
+- Keep the template’s top-left blue/yellow master mark and main-title hierarchy.
+- Keep the thin light-gray horizontal separator under the main-title row.
+- Keep the full-width blue-to-ice-blue subsection strip in the fixed position above.
+- Keep a generous white content field below the strip.
+- Keep the template’s very faint lower-right ice-blue orbital / curved trajectory watermark behind content.
+- Keep the bottom-right #1C4885 slanted page-number tab with white page number; use normal integers 2, 3, 4… without leading zero.
+- Page-specific diagrams, tables and cards may only occupy the content field below the subsection strip. They must not alter the master header, watermark or page tab.
+
+5. CONTENT VISUALIZATION INSIDE BODY MASTER
+- Prefer white or very pale-blue rectangular containers, thin navy / light-gray borders, square or only slightly softened corners.
+- Prefer navy, medium blue, pale blue, gray and small #FFC000 accents.
+- Use line icons sparingly; structure information mainly with alignment, spacing, thin rules and typography.
+- Risk items may use a small red marker; normal / completed items may use a small green marker.
+
+6. COVER MASTER — mandatory for P01
+- Full-slide deep royal-blue gradient matching the supplied template, approximately #0F256D at the top, #0A2C77 through the center and #014099 toward the bottom.
+- A broad soft ice-blue glow / band spans the upper portion, separated from the darker field by one clean thin white curved arc.
+- Centered white title, restrained white subtitle and lower-center organization / date.
+- Do not add cards, badges, shield icons, cyber mesh, network nodes, holograms or neon lines.
+
+7. SECTION DIVIDER MASTER — only for a pure chapter-divider slide
+- White / very pale ice-blue background.
+- Centered three-row chapter navigation structure exactly following the template language.
+- Active chapter in #253B96 / #11298C; inactive chapters in gray.
+- No charts, no content cards, no dark background.
+
+8. CLOSING MASTER — only for a pure closing slide
+- Do not use a full-slide dark-blue closing background.
+- Upper roughly 23–27% is white to pale ice-blue, with a clean white curved boundary.
+- Lower roughly 73–77% is the same deep royal-blue gradient family as the cover.
+- One centered bold yellow (#FFFF00) closing sentence; minimal content.
+
+9. HARD CONSTRAINTS
+- NO deep-space navy background on normal content pages.
+- NO cyber-cyan category tags.
+- NO glassmorphism, translucent dark cards, neon glow, holographic UI, cyber mesh or luminous borders.
+- NO purple-dominant / cyan-dominant rainbow architecture.
+- NO large decorative icons that compete with the corporate master.
+- The corporate template must be visually recognizable before any infographic content is added.
