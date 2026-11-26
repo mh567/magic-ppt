@@ -176,8 +176,14 @@ def render(args):
         fonts = subprocess.run(['fc-list', ':lang=zh'], capture_output=True, text=True, timeout=20)
         if fonts.returncode == 0 and not fonts.stdout.strip():
             warnings.append('Chinese fonts missing: reference text renders blank; fixed geometry only was previewed. Re-render with original licensed fonts or a suitable host renderer before acceptance.')
+    p['visual_status'] = 'pending'
+    p.pop('visual_review', None)
     p['render_warnings'] = warnings
+    p['reference_renderer'] = 'LibreOffice + Poppler'
     dump(profile_path, p)
+    if profile_path == ROOT / 'assets/master/profile.json':
+        dump(ROOT / 'assets/template-status.json',
+             {'status': 'bound-awaiting-visual-review', 'profile': 'master/profile.json'})
 
 
 def mark_verified(args):

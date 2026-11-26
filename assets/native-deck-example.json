@@ -1,0 +1,38 @@
+{
+  "title": "试点进展",
+  "slides": [
+    {
+      "id": "P001",
+      "kind": "cover",
+      "title": "试点进展",
+      "subtitle": "阶段复盘",
+      "footer": "项目组",
+      "speaker_notes": "本次汇报介绍试点期间完成的核查工作。"
+    },
+    {
+      "id": "P002",
+      "kind": "body",
+      "title": "试点核查进展",
+      "subtitle": "按周统计完成核查的事项",
+      "on_slide": ["共完成 20 项核查", "完成核查的事项（项）", "第一周", "第二周"],
+      "speaker_notes": "第一周完成 8 项，第二周完成 12 项，两周合计 20 项。",
+      "sources": ["演示数据，仅用于说明原生图表写法"],
+      "objects": [
+        {
+          "type": "text",
+          "box": [0.9, 2.05, 10, 0.48],
+          "text": "共完成 20 项核查",
+          "style": {"size": 24, "bold": true, "color": "172C89"}
+        },
+        {
+          "type": "chart",
+          "box": [1, 2.7, 10, 3.5],
+          "title": "完成核查的事项（项）",
+          "categories": ["第一周", "第二周"],
+          "series": [{"name": "核查事项", "values": [8, 12]}],
+          "style": {"size": 18}
+        }
+      ]
+    }
+  ]
+}

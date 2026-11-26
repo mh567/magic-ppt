@@ -376,7 +376,21 @@ def remove_originals(prs, count):
         prs.slides._sldIdLst.remove(node)
 
 
-def native_fingerprint(slide, excluded=()):
+def add_template_page(prs, source, master, page):
+    slide = clone_slide(prs, source)
+    for shape in list(slide.shapes):
+        if shape.shape_id in master.get('remove_shape_ids', []):
+            shape._element.getparent().remove(shape._element)
+    values = role_values(page, master)
+    shapes = {shape.shape_id: shape for shape in slide.shapes}
+    for role, sid in master.get('role_shapes', {}).items():
+        if sid not in shapes:
+            raise ValueError('Bound text shape missing: ' + role)
+        replace_text(shapes[sid], values[role])
+    return slide
+
+
+def native_fingerprint(slide, excluded=(), *, included=None):
     """Normalize relationship IDs to actual targets so clone remapping is harmless."""
     def normalize(node):
         node = copy.deepcopy(node)
@@ -387,7 +401,9 @@ def native_fingerprint(slide, excluded=()):
                     value = rel.target_ref if rel.is_external else hashlib.sha256(rel.target_part.blob).hexdigest()
                     el.set(key, value)
         return etree.tostring(node, method='c14n').decode()
-    shapes = [normalize(s._element) for s in slide.shapes if s.shape_id not in excluded and s.name != 'GeneratedContent']
+    shapes = [normalize(s._element) for s in slide.shapes
+              if (s.shape_id in included if included is not None
+                  else s.shape_id not in excluded and s.name != 'GeneratedContent')]
     bg = slide._element.cSld.bg
     return digest({'shapes': shapes, 'background': normalize(bg) if bg is not None else '',
                    'layout': hashlib.sha256(slide.slide_layout.part.blob).hexdigest(),
@@ -414,16 +430,7 @@ def assemble(args):
             if s['kind'] not in profile['masters']:
                 raise ValueError('No bound master for ' + s['kind'])
             m = profile['masters'][s['kind']]
-            slide = clone_slide(prs, originals[m['slide_index'] - 1])
-            for shape in list(slide.shapes):
-                if shape.shape_id in m.get('remove_shape_ids', []):
-                    shape._element.getparent().remove(shape._element)
-            values = role_values(s, m)
-            for role, sid in m.get('role_shapes', {}).items():
-                shp = next((x for x in slide.shapes if x.shape_id == sid), None)
-                if shp is None:
-                    raise ValueError('Bound text shape missing: ' + role)
-                replace_text(shp, values[role])
+            slide = add_template_page(prs, originals[m['slide_index'] - 1], m, s)
             if s['kind'] == 'body':
                 x, y, w, h = m['content_box']
                 pic = slide.shapes.add_picture(str(img), int(x * prs.slide_width), int(y * prs.slide_height),

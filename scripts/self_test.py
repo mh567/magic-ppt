@@ -61,6 +61,69 @@ def make_template(folder):
  return pp
 
 class PipelineTests(unittest.TestCase):
+ def test_native_build_external_verification_and_render_evidence(self):
+  import native_pipeline as native
+  folder=BASE/'native'
+  folder.mkdir()
+  profile=make_template(folder)
+  work=folder/'work'
+  work.mkdir()
+  plan=work/'plan.json'
+  page={'id':'P001','kind':'body','title':'标题','on_slide':['正文','单位','1','第一季度'],
+        'speaker_notes':'口播','sources':['参考资料'],
+        'objects':[
+         {'type':'text','box':[1,2,4,.5],'text':'正文'},
+         {'type':'connector','points':[1,3,4,3],'arrow':True},
+         {'type':'table','box':[1,4,4,1],'rows':[['单位','1']]},
+         {'type':'chart','box':[5,2,4,3],'categories':['第一季度'],
+          'series':[{'name':'数量','values':[3]}]}]}
+  data={'title':'原生测试','font':'Arial','template_profile':'../bound/profile.json','slides':[page]}
+  dp.dump(plan,data)
+  pptx=work/'final.pptx'
+  native.build(plan,pptx)
+  report=native.verify(plan,pptx)
+  self.assertTrue(report['structure']['passed'])
+  self.assertEqual(report['visual_review']['status'],'pending')
+  original=Presentation(pptx)
+  self.assertEqual(original.slides[0].notes_slide.notes_text_frame.text,'口播\n\n【来源】\n参考资料')
+  external=copy.deepcopy(data)
+  external['slides'][0].pop('objects')
+  external['slides'][0]['required_objects']={'connector':1,'table':1}
+  external_plan=work/'external.json'
+  dp.dump(external_plan,external)
+  self.assertTrue(native.verify(external_plan,pptx)['structure']['passed'])
+
+  renders=work/'renders'
+  renders.mkdir()
+  sample_image(renders/'slide-1.png',1)
+  proof={'pptx_sha256':dp.digest_file(pptx),'renderer':'test-fixture','pages':1,
+         'image_sha256':{'slide-1.png':dp.digest_file(renders/'slide-1.png')}}
+  dp.dump(renders/'render.json',proof)
+  native.accept(plan,pptx,work,renders=renders,reviewer='test',comment='Synthetic review')
+  self.assertEqual(json.loads((work/'qa.json').read_text())['visual_review']['status'],'passed')
+  self.assertTrue((work/'contact-sheet.jpg').is_file())
+  proof['pptx_sha256']='stale'
+  dp.dump(renders/'render.json',proof)
+  with self.assertRaisesRegex(ValueError,'another PPT revision'):
+   native.accept(plan,pptx,work,renders=renders)
+  self.assertEqual(json.loads((work/'qa.json').read_text())['visual_review']['status'],'pending')
+
+  original.slides[0].notes_slide.notes_text_frame.text=''
+  broken=work/'missing-notes.pptx'
+  original.save(broken)
+  self.assertFalse(native.verify(plan,broken)['structure']['passed'])
+  self.assertIn('P001: notes mismatch',native.verify(plan,broken)['structure']['errors'])
+  chart=copy.deepcopy(data)
+  chart['slides'][0]['objects'][-1]['series'][0]['values']=[30]
+  chart_plan=work/'chart-changed.json'
+  dp.dump(chart_plan,chart)
+  self.assertIn('P001: editable chart types, categories or data differ from plan',
+                native.verify(chart_plan,pptx)['structure']['errors'])
+  source=profile.parent/'source.pptx'
+  source.write_bytes(source.read_bytes()+b'changed')
+  with self.assertRaisesRegex(ValueError,'source missing or changed'):
+   native.verify(plan,pptx)
+
  def test_version_contract(self):
   import re, subprocess
   version=(SKILL/'VERSION').read_text().strip()

@@ -119,14 +119,28 @@
       "blank_reference_image": "blank/closing.png"
     }
   },
-  "visual_status": "pending",
+  "visual_status": "verified",
   "provenance": "用户上传原始 PPT模板.pptx，6页；源字节原样保存；字体声明保持原样。",
   "bound_at": "2026-10-10T09:15:23.053491+00:00",
-  "render_warnings": [
-    "Chinese fonts missing in current Linux renderer; fixed objects visually checked, Chinese titles must be re-rendered before mark-verified."
-  ],
+  "render_warnings": [],
   "geometry_review": {
     "reviewer": "agent",
     "comment": "已目视核对原始与空白底板的弧线、蓝黄标识、条带、水印和页码签；源文件保持字节一致；中文文字当前渲染为空白，未验收字体。"
+  },
+  "reference_renderer": "LibreOffice + Poppler",
+  "visual_review": {
+    "reviewer": "Codex",
+    "comment": "LibreOffice 与 Poppler 使用本机中文字体配置。逐类核对封面、章节、正文、封底原页与空白底板，中文可读，保留弧线、色条、装饰、水印与页码签；空白底板只清除配置中的样例文字。",
+    "reference_sha256": {
+      "cover:reference_image": "884eb8d54747fbcc91b3d4dd59538f6671e03854e0e767d699b0d4862f9e1fb4",
+      "cover:blank_reference_image": "2326ef633d9afee532667b060d108d4bd1bf405ddc63dfb11bf42492dcd96685",
+      "body:reference_image": "0652d05510a969b319bc5826093daf4e4094182518b164e100e289ca66151b5f",
+      "body:blank_reference_image": "44e900b6ebc9e94ad3682d98cd3eebcec05554fd229814b0aca4a626db337acd",
+      "section:reference_image": "b66d4008528ea7b441c6eebf24c849e186cc067d82f34a677d74f694abc93463",
+      "section:blank_reference_image": "5e2f5d837950e0175ddb3aff2086a7fbb492364a497393c8611e776d1941e752",
+      "closing:reference_image": "0db99b7fe0dd0af29c38ef3c46b93d3e2162f2384e26fd167ae7f120b3ddab97",
+      "closing:blank_reference_image": "cf164c0d6c8afe15ce6f00fa6e2ca51e1f50292d994ab27e85b333a91b4f6657"
+    },
+    "reviewed_at": "2026-11-26T15:58:38.221668+00:00"
   }
 }
