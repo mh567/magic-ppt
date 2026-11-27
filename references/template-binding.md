@@ -46,6 +46,54 @@ python scripts/template_tools.py mark-verified --profile assets/master/profile.j
 
 真正运行完视觉检查后才能写该注释，不能用命令代替检查。
 
+## 槽位索引
+
+绑定后可生成模板页的可寻址文字槽清单，供按模板页复用原文排版时使用：
+
+```bash
+python scripts/template_tools.py index --pptx assets/master/source.pptx --out assets/master/slots.json
+```
+
+每个槽位记录稳定 id（`s{页}_sh{形状}_p{段落}`）、原始文本、`{shape_id, paragraph}` 地址、容量预算（`chars_per_line`、`max_lines`、`budget`）、`autofit` 标记和字号层级 `level`。文件级另有来源名、SHA256、画布尺寸与 `type_scale`。组合形状内的文字一并索引；退化文本框标 `capacity_unknown` 并跳过容量校验。
+
+字号按 OOXML 继承链解析：run 显式值、段落值、版式占位符 `lstStyle`、母版占位符 `lstStyle`、母版 `txStyles`（按标题、正文、其它分桶），都没有才用 18pt 兜底。占位符标题常靠 `txStyles` 取到 44pt，只读 run 会低估到 18pt，容量预算随之偏大。普通文本框不参与继承，没有显式字号时按兜底值记录。
+
+槽位按段落切分，同一段落内的局部着色或多字号作为格式保留，不拆成多个槽。脚本不判断文字语义，`editable` 默认全为 true，装饰序号、导航数字等锁定项由 Agent 在索引后按页补写。索引不替代绑定的视觉验收，也不改变母版固定区。
+
+## 按槽位选页换字
+
+索引之后可写 `plan.json` 组装成品，只换文字、不动排版：
+
+```bash
+python scripts/template_tools.py build --plan plan.json --slots assets/master/slots.json \
+  --template assets/master/source.pptx --out final.pptx
+```
+
+```json
+{
+  "schema_version": 1,
+  "slides": [
+    {"source_slide": 3, "edits": [{"slot": "s3_sh46_p0", "text": "资料查全"}]},
+    {"source_slide": 1, "edits": [{"slot": "s1_sh2_p0", "text": "第二章"}, {"slot": "s1_sh2_p1", "text": "复用的扉页"}]}
+  ]
+}
+```
+
+`source_slide` 是模板页序，可重复引用同一页，输出按数组顺序排列；未列出的模板页会被丢弃。替换只改段落文字，保留段落属性与首个 run 的字号、颜色、粗体；段落内的软换行与字段一并清除，不留残字。
+
+以下情况直接报错，不产出半成品：槽位索引与模板 SHA256 不符、槽位 id 不在索引中、`source_slide` 越界、可编辑槽位未覆盖、文本仍是占位内容。文本结尾为省略号或超出容量预算只告警不阻断，避免为凑长度而截断。
+
+## 验收
+
+```bash
+python scripts/template_tools.py accept --plan plan.json --slots assets/master/slots.json \
+  --template assets/master/source.pptx --pptx final.pptx --out work --renders work/renders
+```
+
+`accept` 先做结构校验，再核对渲染证据，写出 `work/qa.json` 与 `work/contact-sheet.jpg`。
+
+结构校验比较成品与模板页的固定对象指纹、母版与主题，并逐槽核对计划文字，因此外部改动固定元素、母版或槽位文字都会被拒。渲染证据必须属于同一个 PPTX 版本，页数与图像哈希需与文件夹一致。未提供 `--reviewer` 与 `--comment` 时 `visual_review` 保持 `pending`，两者任一为空即报错。宿主无本地渲染器时传 `--renders` 指向宿主渲染结果，并保留真实 renderer 名称，不用合成图片冒充验收。
+
 保存 `assets/master/source.pptx`、`profile.json`、原页与空白参考，更新 `assets/template-status.json`；修改 skill 后验证并保存到用户指定位置；提交与推送遵循当前用户授权。这样一次绑定才在后续会话有效。更换模板保留旧版本；`--replace` 只在用户确实要求替换时用。
 
 ## 如何理解“完全一致”

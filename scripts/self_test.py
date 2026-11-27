@@ -9,6 +9,7 @@ SKILL=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(SKILL/'scripts'))
 import deck_pipeline as dp
 import template_tools as tt
+from test_slots import SlotIndexTests, FontInheritanceTests, DistributionTests
 TEMP=tempfile.TemporaryDirectory(prefix='enterprise-ppt-self-test-')
 BASE=Path(TEMP.name)
 

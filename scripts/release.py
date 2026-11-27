@@ -16,7 +16,7 @@ def run(*args):
     return subprocess.check_output(args, cwd=ROOT, text=True).strip()
 
 
-def build(out, tag=None):
+def build(out, tag=None, source_url=None):
     if run('git', 'status', '--porcelain', '--untracked-files=normal'):
         raise ValueError('Commit or preserve local changes before building a release')
     version = (ROOT / 'VERSION').read_text().strip()
@@ -74,6 +74,9 @@ def build(out, tag=None):
                'sha256': sha, 'files': len(payloads), 'checks': 'passed'}
     (out / 'release-manifest.json').write_text(json.dumps(receipt, indent=2) + '\n')
     (out / 'release-notes.md').write_text(match.group(1).strip() + '\n')
+    import skill_distribution as distribution
+    summary = match.group(1).strip().splitlines()[0]
+    distribution.publish(str(ROOT), str(out / 'updates'), version, summary, source_url)
     print(json.dumps(receipt))
 
 
@@ -81,9 +84,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', required=True)
     parser.add_argument('--tag')
+    parser.add_argument('--update-source', default=None,
+                        help='URL an installed skill should read the incremental index from')
     args = parser.parse_args()
     try:
-        build(args.out, args.tag)
+        build(args.out, args.tag, args.update_source)
     except (ValueError, OSError, subprocess.SubprocessError) as error:
         parser.exit(1, str(error) + '\n')
 

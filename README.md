@@ -15,6 +15,7 @@ Magic PPT 是一个将原始素材制作成完整 PowerPoint 演示文稿的 Age
 | 制作方式 | 结果与边界 |
 |---|---|
 | 原生可编辑，默认 | 文字与结构对象可编辑，照片与插画可为图片；预览可使用渲染图片 |
+| 模板页复用 | 模板本身已是设计成稿、内容以文字为主时使用，只替换文字不改排版，版面为设计师原样 |
 | 模板复用加正文图片 | 用户明确要求时使用，固定区原生，正文图内文字不可逐字编辑 |
 | 整页图像 | 用户明确要求时使用，每页一张图，备注可编辑；模板外观近似 |
 
@@ -91,8 +92,8 @@ Agent 根据安装方式拉取或替换新版，先保存本地改动和自定�
 
 1. 将本次变化从 Unreleased 归档到新版本，更新 VERSION 和 SKILL.md 的 metadata.version。
 2. 提交并推送 main，等待 Validate and release 工作流通过。
-3. 在同一已验证提交创建标签 `v<版本号>` 并推送标签，工作流自动构建并发布离线 ZIP、SHA256SUMS.txt 与 release-manifest.json。
+3. 在同一已验证提交创建标签 `v<版本号>` 并推送标签，工作流自动构建并发布离线 ZIP、SHA256SUMS.txt、release-manifest.json 与增量镜像 `updates/`。
 
-本地可执行 `python scripts/release.py --out ../dist` 验证与打包。要求已提交且干净的工作区；标签必须与版本一致。现有 Release 不覆盖，失败修复后重新检查；已发布版本的功能修复使用新版本号。
+本地可执行 `python scripts/release.py --out ../dist --update-source <镜像地址>` 验证与打包。要求已提交且干净的工作区；标签必须与版本一致。现有 Release 不覆盖，失败修复后重新检查；已发布版本的功能修复使用新版本号。
 
-发布包使用固定 ZIP 元数据，并从 Git 提交读取文件，不包含 Git 元数据、CI 配置或本地环境。项目版本与提交身份写入发布清单。
+发布包使用固定 ZIP 元数据，并从 Git 提交读取文件，不包含 Git 元数据、CI 配置或本地环境。项目版本与提交身份写入发布清单。增量镜像另有 `manifest.json`、`updates.json` 与仅含本次差集的文件目录，供已安装副本只拉改动，见 [增量分发](references/distribution.md)。
