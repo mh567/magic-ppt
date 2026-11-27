@@ -41,6 +41,8 @@ jobs:
         with:
           name: magic-ppt-package
           path: release
+      - name: Pack incremental mirror for self-hosting
+        run: cd release && zip -qr magic-ppt-updates.zip updates
       - name: Publish new version without replacing existing releases
         env:
           GH_TOKEN: ${{ github.token }}

@@ -1,7 +1,7 @@
 ---
 name: magic-ppt
 metadata:
-  version: "0.2.1"
+  version: "0.3.0"
 description: 将原始素材制作成沿用已绑定模板的原生可编辑 PPTX，附口播备注与最终渲染验收；支持图片效果预览，以及明确要求的图片式交付。
 ---
 
@@ -60,7 +60,7 @@ Agent 另行检查图像生成、编辑、渲染与模板字体能力，缺少�
 
 ## 版本管理
 
-`VERSION` 是版本号的事实源，当前为 `0.2.1`；`SKILL.md` 的 metadata.version 与其保持一致。`CHANGELOG.md` 记录每个版本的日期、变化与验证。修改后先记入 Unreleased，仅在明确准备发布版本时更新版本号并归档记录。
+`VERSION` 是版本号的事实源，当前为 `0.3.0`；`SKILL.md` 的 metadata.version 与其保持一致。`CHANGELOG.md` 记录每个版本的日期、变化与验证。修改后先记入 Unreleased，仅在明确准备发布版本时更新版本号并归档记录。
 
 发布沿用整包 ZIP 作为首次安装，另出增量镜像供已装副本只拉改动文件，见 [增量分发](references/distribution.md)。
 
