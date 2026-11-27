@@ -278,6 +278,22 @@ class SlotIndexTests(unittest.TestCase):
         self.assertEqual(len(report['warnings']), 1)
         self.assertIn('省略号', report['warnings'][0])
 
+    def test_build_allows_content_that_mentions_placeholder_wording(self):
+        def build(slide):
+            box = slide.shapes.add_textbox(Inches(1), Inches(1), Inches(4), Inches(1))
+            box.text = '模板标题'
+
+        template = self.deck('wording.pptx', [build])
+        slots = tt.index_template(template)
+        slot_id = slots['pages'][0]['text_slots'][0]['id']
+        plan = {'schema_version': 1, 'slides': [
+            {'source_slide': 1, 'edits': [{'slot': slot_id, 'text': '占位检查与残留拦截'}]}]}
+        out = self.base / 'wording-final.pptx'
+
+        tt.build_deck(plan, slots, template, out)
+
+        self.assertTrue(out.is_file())
+
     def test_build_rejects_placeholder_text(self):
         def build(slide):
             box = slide.shapes.add_textbox(Inches(1), Inches(1), Inches(4), Inches(1))

@@ -229,7 +229,7 @@ def slot_index(slots):
             for page in slots['pages'] for slot in page['text_slots']}
 
 
-PLACEHOLDER_MARKERS = ('Lorem', 'Key Words', '项目名称', 'Question 1', 'Vivamus', '占位')
+PLACEHOLDER_MARKERS = ('Lorem', 'Key Words', '项目名称', 'Question 1', 'Vivamus')
 
 
 def placeholder_in(text):
